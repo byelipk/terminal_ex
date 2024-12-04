@@ -124,11 +124,11 @@ defmodule WorkflowDemo do
     end
   end
 
-  def render(%{stage: :main_view, main_view: main_view}) do
+  def render(%{stage: :main_view, main_view: main_view} = model) do
     view do
       row do
         # Column 1: Streams
-        column(size: 4) do
+        column(size: assign_column_size(model, :streams)) do
           panel title: "Streams" do
             Enum.map(main_view.streams, fn stream ->
               label(
@@ -144,7 +144,7 @@ defmodule WorkflowDemo do
           selected_stream = Enum.at(main_view.streams, main_view.selection.stream)
           schemas = Map.get(main_view.schemas, selected_stream, [])
 
-          column(size: 4) do
+          column(size: assign_column_size(model, :schemas)) do
             panel title: "Schemas" do
               Enum.map(schemas, fn schema ->
                 label(
@@ -152,6 +152,12 @@ defmodule WorkflowDemo do
                   color: assign_color(schemas, schema, main_view.focus.schema)
                 )
               end)
+            end
+          end
+        else
+          column(size: assign_column_size(model, :schemas)) do
+            panel title: "Schemas" do
+              label(content: "Select a stream to view schemas")
             end
           end
         end
@@ -165,7 +171,7 @@ defmodule WorkflowDemo do
 
           items = Map.get(main_view.items, selected_schema, [])
 
-          column(size: 4) do
+          column(size: assign_column_size(model, :items)) do
             panel title: "Items" do
               Enum.map(items, fn item ->
                 label(
@@ -173,6 +179,12 @@ defmodule WorkflowDemo do
                   color: assign_color(items, item, main_view.focus.item)
                 )
               end)
+            end
+          end
+        else
+          column(size: assign_column_size(model, :items)) do
+            panel title: "Items" do
+              label(content: "Select a schema to view items")
             end
           end
         end
@@ -308,6 +320,18 @@ defmodule WorkflowDemo do
       true -> :green
       false -> :white
     end
+  end
+
+  defp assign_column_size(model, :streams) do
+    4
+  end
+
+  defp assign_column_size(model, :schemas) do
+    4
+  end
+
+  defp assign_column_size(model, :items) do
+    4
   end
 end
 
