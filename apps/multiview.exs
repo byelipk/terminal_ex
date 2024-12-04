@@ -389,25 +389,37 @@ defmodule MultiViewApp do
   defp render_tab_one(model) do
     # Panel for the selected tab
     panel title: "Tab 1" do
-      label(
-        content: "First Name: #{model.inputs.tab1.fname.value}",
-        color: focused?(model, :tab1, :fname)
-      )
+      row do
+        column(size: 3) do
+          label(
+            content: "First Name: #{model.inputs.tab1.fname.value}",
+            color: focused?(model, :tab1, :fname)
+          )
 
-      label(
-        content: "Last Name: #{model.inputs.tab1.lname.value}",
-        color: focused?(model, :tab1, :lname)
-      )
+          label(
+            content: "Last Name: #{model.inputs.tab1.lname.value}",
+            color: focused?(model, :tab1, :lname)
+          )
 
-      label(
-        content: "City: #{model.inputs.tab1.city.value}",
-        color: focused?(model, :tab1, :city)
-      )
+          label(
+            content: "City: #{model.inputs.tab1.city.value}",
+            color: focused?(model, :tab1, :city)
+          )
 
-      label(
-        content: "Tags: #{model.inputs.tab1.tags.value |> Enum.join(", ")}",
-        color: focused?(model, :tab1, :tags)
-      )
+          label(
+            content: "Tags: #{model.inputs.tab1.tags.value |> Enum.join(", ")}",
+            color: focused?(model, :tab1, :tags)
+          )
+        end
+
+        column(size: 6) do
+          label(content: "Hey!")
+        end
+
+        column(size: 3) do
+          label(content: "Hey!")
+        end
+      end
     end
   end
 
